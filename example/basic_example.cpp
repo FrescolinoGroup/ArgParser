@@ -17,5 +17,13 @@ int main(int argc, char* argv[]) {
     fsc::ArgParser ap(argc, argv);
     std::cout << ap << std::endl;
     
+    auto x = ap[0];
+    x += "4";
+    
+    std::string foo("foo" + ap[0]);
+    
+    std::cout << foo << std::endl;
+    std::cout << x << std::endl;
+    
     return 0;
 }

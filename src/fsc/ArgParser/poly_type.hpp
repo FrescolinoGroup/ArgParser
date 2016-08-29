@@ -8,6 +8,8 @@
 #include "boost_any.hpp"
 #include "fsc_except.hpp"
 
+#include <mtp/list.hpp>
+
 #include <map>
 #include <iomanip>
 #include <typeinfo>
@@ -38,19 +40,20 @@ namespace fsc {
     /// @endcond
 
     struct poly_type {
+        private:
+            // This class has a templated cast operator that works nicely, but
+            // has ambiguity problems with std::string since it has so many 
+            // ctors... hence we drop all cast operators that trouble std::string 
+            using drop_casts = mtp::make_list<size_t, std::initializer_list<char>, std::allocator<char>, const char*>;
+        public:
         //------------------- structors -------------------
         poly_type() {}
         template<typename T>
         poly_type(T const & t): any(t) {}
         poly_type(char const * t): any(std::string(t)) {}
         //------------------- cast -------------------
-        template<typename T>
+        template<typename T, typename enable = std::enable_if_t<drop_casts::index<T>::value==-1>>
         operator T() const {
-            //~ typename std::enable_if<std::is_convertible<T, bool>::value 
-                                          //~ ||std::is_convertible<T, int>::value
-                                          //~ ||std::is_convertible<T, double>::value
-                                          //~ ||std::is_convertible<T, std::string>::value
-                                          //~ , int>::type i=0;
             if(type() == typeid(int)) {
                 return detail::convert<T>::from(boost::any_cast<int>(any));
             }

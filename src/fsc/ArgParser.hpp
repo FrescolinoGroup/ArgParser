@@ -18,7 +18,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * \mainpage
  * 
  * An argument parser that does not require registration.
  * 
@@ -83,7 +82,6 @@
 #include "ArgParser/fsc_except.hpp"
 
 #include <map>
-#include <regex>
 #include <fstream>
 #include <sstream>
 #include <iostream>
