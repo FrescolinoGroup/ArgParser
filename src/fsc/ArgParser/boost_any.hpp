@@ -9,6 +9,7 @@
 #include <typeinfo>
 #include <type_traits>
 
+/// \cond IMPLEMENTATION_DETAIL_DOC
 namespace boost {
     class any {
     public: // structors
@@ -161,5 +162,6 @@ namespace boost {
         return unsafe_any_cast<ValueType>(const_cast<any *>(operand));
     }
 }
+/// \endcond
 
 #endif //BOOST_ANY_HEADER

@@ -9,52 +9,7 @@
  * --------: | :------------
  * 2014-2016 | Mario Könz
  *    2015   | C. Frescolino
- * \copyright  Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at\n
- *     http://www.apache.org/licenses/LICENSE-2.0\n
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * An argument parser that does not require registration.
- * 
- * ### Definitions
- * The following syntax is legal for this argument parser.
- * 
- * #### free arguments
- * 
- * aka positional arguments / unnamed arguments
- * * any combination of characters as long as they don't start with `-`
- *   and do not contain `=`
- * 
- * #### named arguments
- * 
- * _Note_: `val` has the same constrains as the free arguments
- * * `key=val` note that there is no whitespace between the `key`, `=` and `val`
- * * `key=-val` one way to set negative values
- * * `--key val`
- * * `--key=val`, `--key=-val`
- * * `-k val` if the key `k` only has one character
- * * `-k=val`, `-k=-val`
- * * `-kval`, `-k-val` alternative notation for `k=val`, `k=-val`
- * 
- * #### flags
- * * `--flag`
- * * `-f` if `f` is only one character long
- * 
- * #### remarks
- * 
- * * a valid command line is build by the above syntax, seperated by whitespace, i.e:\n
- * `free0 free1 --flag -f key=10`
- * * it is not possible to have negative values as free arguments
- * * it is not allowed to have a flag and named argument with the same name, 
- *   since there is no registration.
- * 
- * See "Detailed Description" of fsc::ArgParser for an example.
- * 
+ * \copyright  See LICENCE
  */
 
 /* TODO
@@ -122,34 +77,7 @@ namespace fsc {
     * ### Usage:
     * For details and more examples, see the fsc::ArgParser member function
     * documentation.
-    * ~~~{.cpp}
-    *     using namespace fsc;
-    * 
-    *     ArgParser ap(argc, argv);    // creates an ArgParser and 
-    *                                  // parses the command line
-    *     ap.parse_file("cline.txt");  // reads cline.txt and parses the content
-    *                                  // an already set argument will be overwritten
-    * 
-    *     ap["n"];                     // get the named argument "n" if set,
-    *                                  // otherwise a std::runtime_error is thrown
-    *     ap.def("n", 10);             // set named argument "n" to 10 
-    *                                  // if "n" is not already set
-    *     int n = ap.get("n", 10);     // get named argument "n" if set, otherwise 10
-    *     
-    *     ap.is_set("f");              // true if "f" is a flag or named argument
-    *     
-    *     ap[0];                       // get free argument at position 0,
-    *                                  // or std::runtime_error if not set
-    *     ap.is_set(1);                // true if there is a free argument at pos 1
-    *     ap.freeargc();               // returns the number of free arguments
-    *     
-    *     
-    *     ap.cwd();                    // return the cwd
-    *     ap.pwd();                    // return the pwd
-    *     ap.progname();               // return the name of the binary
-    *     
-    *     std::cout << ap << std::endl;// print the ArgParser
-    * ~~~
+    * \include mixed_example.cpp
     */
     class ArgParser {
         //~ using poly_type = __future_impl;
@@ -356,24 +284,6 @@ namespace fsc {
          * * cwd, pwd and progname are also overwritten by `rhs` if 
          * `overwrite == true`, otherwise nothing is done.
          * 
-         * Use case
-         * ~~~{.cpp}
-         * using namespace fsc;
-         * 
-         * ArgParser ap("-mcs 20 --type=sim --slow -n10 free0");
-         * ArgParser rhs("-mcs 10 --E=10 --fast -n5 free1 free2");
-         * 
-         * ap.merge(rhs, false);
-         * // ap has now the named arguments: mcs = 20, type = sim, n = 10, E = 10
-         * //                 free arguments: free0
-         * //                          flags: slow fast
-         * ap.merge(rhs);
-         * // ap has now the named arguments: mcs = 10,  type = sim, n = 5, E = 10
-         * //                 free arguments: free1 free2
-         * //                          flags: slow fast
-         * 
-         * std::cout << ap << std::endl;
-         * ~~~
          */
         void merge(ArgParser const & rhs, bool const & overwrite = true) noexcept {
             //------------------- n_args_ -------------------
@@ -587,5 +497,12 @@ namespace fsc {
         arg.print(os);
         return os;
     }
+    
+    /// \example basic_example.cpp
+    
+    /// \example mixed_example.cpp
+    
+    /// \example merge_example.cpp
+
 }//end namespace fsc
 #endif //FSC_ARGPARSER_HEADER

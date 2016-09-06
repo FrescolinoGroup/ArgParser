@@ -2,37 +2,52 @@
 ## Motivation
 
 This module provides an Argument Parser that does not require registration.
-See fsc::ArgParser for doc
+It uses a weak type and casts depending to the context and thus removes manual casting.
+It's further possible to merge different Argument Parsers with different policies.
 
-## Foo
+## Syntax
 
-## Bar
-\snippet ./src/ArgParser.hpp
-~~~{.cpp}
-    using namespace fsc;
+The following syntax is legal for this argument parser.
 
-    ArgParser ap(argc, argv);    // creates an ArgParser and 
-                                 // parses the command line
-    ap.parse_file("cline.txt");  // reads cline.txt and parses the content
-                                 // an already set argument will be overwritten
+#### free arguments
 
-    ap["n"];                     // get the named argument "n" if set,
-                                 // otherwise a std::runtime_error is thrown
-    ap.def("n", 10);             // set named argument "n" to 10 
-                                 // if "n" is not already set
-    int n = ap.get("n", 10);     // get named argument "n" if set, otherwise 10
-    
-    ap.is_set("f");              // true if "f" is a flag or named argument
-    
-    ap[0];                       // get free argument at position 0,
-                                 // or std::runtime_error if not set
-    ap.is_set(1);                // true if there is a free argument at pos 1
-    ap.freeargc();               // returns the number of free arguments
-    
-    
-    ap.cwd();                    // return the cwd
-    ap.pwd();                    // return the pwd
-    ap.progname();               // return the name of the binary
-    
-    std::cout << ap << std::endl;// print the ArgParser
-~~~
+aka positional arguments / unnamed arguments
+* any combination of characters as long as they don't start with `-`
+  and do not contain `=`
+
+#### named arguments
+
+_Note_: `val` has the same constrains as the free arguments
+* `key=val` note that there is no white-space between the `key`, `=` and `val`
+* `key=-val` one way to set negative values
+* `--key val`
+* `--key=val`, `--key=-val`
+* `-k val` if the key `k` only has one character
+* `-k=val`, `-k=-val`
+* `-kval`, `-k-val` alternative notation for `k=val`, `k=-val`
+
+#### flags
+* `--flag`
+* `-f` if `f` is only one character long
+
+#### remarks
+
+* a valid command line is build by the above syntax, separated by white-space, i.e:\n
+`free0 free1 --flag -f key=10`
+* it is not possible to have negative values as free arguments
+* it is not allowed to have a flag and named argument with the same name, 
+  since there is no registration.
+
+## Example Parsing
+
+This example shows the basic parsing and access to the arguments once parsed.
+
+\include mixed_example.cpp
+
+## Weak Type Usage
+
+Here one can see the automatic casting abilities of the weak type used by the 
+ArgParser.
+
+\include weak_type_example.cpp
+\example weak_type_example.cpp

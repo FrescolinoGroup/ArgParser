@@ -6,7 +6,7 @@
 #define FSC_FSC_EXCEPT_HEADER
 
 #include <stdexcept>
-
+/// \cond IMPLEMENTATION_DETAIL_DOC
 namespace fsc {
     class cat_on_your_keyboard_error: public std::runtime_error {
         using base = std::runtime_error;
@@ -33,5 +33,6 @@ namespace fsc {
         }
     };
 }//end namespace fsc
+/// \endcond
 
 #endif //FSC_FSC_EXCEPT_HEADER

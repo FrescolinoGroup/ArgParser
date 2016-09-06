@@ -8,8 +8,6 @@
 #include "boost_any.hpp"
 #include "fsc_except.hpp"
 
-#include <mtp/list.hpp>
-
 #include <map>
 #include <iomanip>
 #include <typeinfo>
@@ -38,13 +36,33 @@ namespace fsc {
         };
     }//end namespace detail
     /// @endcond
-
+    
+    /// \cond IMPLEMENTATION_DETAIL_DOC
     struct poly_type {
         private:
             // This class has a templated cast operator that works nicely, but
             // has ambiguity problems with std::string since it has so many 
             // ctors... hence we drop all cast operators that trouble std::string 
-            using drop_casts = mtp::make_list<size_t, std::initializer_list<char>, std::allocator<char>, const char*>;
+            template<typename T, typename U>
+            struct drop_casts {
+                static constexpr bool value = true;
+            };
+            //~ template<typename U>
+            //~ struct drop_casts<size_t, U> {
+                //~ static constexpr bool value = false;
+            //~ };
+            template<typename U>
+            struct drop_casts<std::initializer_list<char>, U> {
+                static constexpr bool value = false;
+            };
+            template<typename U>
+            struct drop_casts<std::allocator<char>, U> {
+                static constexpr bool value = false;
+            };
+            template<typename U>
+            struct drop_casts<const char*, U> {
+                static constexpr bool value = false;
+            };
         public:
         //------------------- structors -------------------
         poly_type() {}
@@ -52,7 +70,7 @@ namespace fsc {
         poly_type(T const & t): any(t) {}
         poly_type(char const * t): any(std::string(t)) {}
         //------------------- cast -------------------
-        template<typename T, typename enable = std::enable_if_t<drop_casts::index<T>::value==-1>>
+        template<typename T, typename enable = std::enable_if_t<drop_casts<T, void>::value>>
         operator T() const {
             if(type() == typeid(int)) {
                 return detail::convert<T>::from(boost::any_cast<int>(any));
@@ -216,6 +234,8 @@ namespace fsc {
 
     #undef FSC_POLY_TYPE_OP_SUPPORT
     #undef FSC_POLY_TYPE_OPEQ_SUPPORT
+    
+    /// \endcond
 }//end namespace fsc
 
 
