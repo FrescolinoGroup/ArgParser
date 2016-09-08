@@ -89,13 +89,13 @@ namespace fsc {
         //------------------- structors -------------------
         /**@brief default constructor
          * 
-         * does not generate pdw and progname.
+         * does not generate pwd and progname.
          */
         ArgParser() noexcept: cwd_(getcwd(NULL, 0))
                             , pwd_("")
                             , progname_("") {
         }
-        /**@brief construct form command line
+        /**@brief construct from command line
          * @param argc length of argv
          * @param argv array of arguments given via command line
          * 
@@ -267,7 +267,7 @@ namespace fsc {
             setflag_(key);
         }
         
-        /**@brief merge two argument parser
+        /**@brief merge two argument parsers
          * @param rhs is the argument parser that is merged into `this` one.
          * @param overwrite defines the merging-behavior on conflicts
          *  
