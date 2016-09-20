@@ -420,7 +420,7 @@ namespace fsc {
                 
                 std::string arg1 = arg[i];
                 std::string help = "";
-                int pos;
+                uint64_t pos;
                 
                 switch(t) {
                     case(named_m_stick):
