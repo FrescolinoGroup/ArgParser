@@ -24,7 +24,7 @@ include(fsc/uninstall)
 
 # flags
 if(CMAKE_CXX_COMPILER_ID MATCHES "(C|c?)lang")
-    set(CMAKE_CXX_FLAGS "-std=c++14 -O3 -march=native -Werror -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-missing-prototypes -Wno-exit-time-destructors -Wno-global-constructors -Wno-implicit-fallthrough -Wno-disabled-macro-expansion -Wno-documentation-unknown-command -Wno-missing-braces -Wno-documentation -Wno-deprecated -Wno-weak-vtables")
+    set(CMAKE_CXX_FLAGS "-std=c++14 -O3 -march=native -Werror -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-missing-prototypes -Wno-exit-time-destructors -Wno-global-constructors -Wno-implicit-fallthrough -Wno-disabled-macro-expansion -Wno-documentation-unknown-command -Wno-missing-braces -Wno-documentation -Wno-deprecated -Wno-weak-vtables -Wno-switch-enum -Wno-float-conversion -Wno-padded")
 else()
     set(CMAKE_CXX_FLAGS "-std=c++14 -O3 -march=native -Werror -Wall -Wextra -Wpedantic")
 endif()
