@@ -37,6 +37,7 @@
 #include "ArgParser/fsc_except.hpp"
 
 #include <map>
+#include <vector>
 #include <fstream>
 #include <sstream>
 #include <iostream>
