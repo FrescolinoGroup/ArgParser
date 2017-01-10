@@ -40,6 +40,9 @@ install:
     # fsc.cmake_extensions
     - git clone https://github.com/FrescolinoGroup/cmake_extensions.git && cd cmake_extensions && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL && make softinstall
     - cd $DEPENDENCY
+    # fsc.stdSupport
+    - git clone https://github.com/FrescolinoGroup/stdSupport.git && cd stdSupport && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL && make softinstall
+    - cd $DEPENDENCY
     - export CPLUS_INCLUDE_PATH=$INCLUDE:$CPLUS_INCLUDE_PATH
     - cd ..
     # run cmake and make
