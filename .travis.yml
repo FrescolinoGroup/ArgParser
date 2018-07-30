@@ -35,7 +35,7 @@ install:
     - mkdir install && cd install && export INSTALL=$PWD
     - mkdir include && cd include && export INCLUDE=$PWD
     # catch
-    - wget https://raw.githubusercontent.com/philsquared/Catch/master/single_include/catch.hpp
+    - wget https://github.com/catchorg/Catch2/releases/download/v2.3.0/catch.hpp
     - cd $DEPENDENCY
     # fsc.cmake_extensions
     - git clone https://github.com/FrescolinoGroup/cmake_extensions.git && cd cmake_extensions && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL && make softinstall
