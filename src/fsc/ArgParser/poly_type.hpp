@@ -41,6 +41,16 @@ namespace detail {
             return T();  // TODO, remove default ctor req.
         }
     };
+
+    struct get_string_self_view_if_present {
+        template <typename T>
+        static typename T::__self_view testing(int);
+        template <typename T>
+        static void testing(...);
+
+        using type = decltype(testing<std::string>(1));
+    };
+
 }  // end namespace detail
 /// @endcond
 
@@ -71,7 +81,8 @@ private:
         static constexpr bool value = false;
     };
     template <typename U>
-    struct drop_casts<std::string::__self_view, U> {
+    struct drop_casts<typename detail::get_string_self_view_if_present::type,
+                      U> {
         static constexpr bool value = false;
     };
 
