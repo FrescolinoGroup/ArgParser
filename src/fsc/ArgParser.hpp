@@ -75,8 +75,8 @@ namespace detail {
 
     template <typename map_type>
     struct verbose_map : public map_type {
-        using typename map_type::mapped_type;
         using typename map_type::key_type;
+        using typename map_type::mapped_type;
 
         mapped_type const &at(key_type const &key) const {
             try {
@@ -92,12 +92,12 @@ namespace detail {
    /// @endcond
 
 /** @brief an argument parser that does not require registration.
-*
-* ### Usage:
-* For details and more examples, see the fsc::ArgParser member function
-* documentation.
-* \include mixed_example.cpp
-*/
+ *
+ * ### Usage:
+ * For details and more examples, see the fsc::ArgParser member function
+ * documentation.
+ * \include mixed_example.cpp
+ */
 template <typename VT = poly_type>
 class ArgParserTpl {
 public:
@@ -116,7 +116,8 @@ public:
      *
      * does not generate pwd and progname.
      */
-    ArgParserTpl() noexcept : cwd_(getcwd(NULL, 0)), pwd_(""), progname_("") {}
+    ArgParserTpl() noexcept
+        : cwd_(getcwd(nullptr, 0)), pwd_(""), progname_("") {}
     /**@brief construct from command line
      * @param argc length of argv
      * @param argv array of arguments given via command line
@@ -126,7 +127,7 @@ public:
      * Throws a std::runtime_error if the command line is ill-formed.
      */
     ArgParserTpl(int const &argc, char *argv[])
-        : cwd_(getcwd(NULL, 0)),
+        : cwd_(getcwd(nullptr, 0)),
           pwd_(detail::get_pwd(argv[0], cwd_)),
           progname_(detail::get_progname(argv[0])) {
         vec_type<std::string> arg;
@@ -143,7 +144,7 @@ public:
      * Does not generate pwd and progname.
      */
     explicit ArgParserTpl(std::string const &cline)
-        : cwd_(getcwd(NULL, 0)), pwd_(""), progname_("") {
+        : cwd_(getcwd(nullptr, 0)), pwd_(""), progname_("") {
         parse_(detail::split_clean(cline));
     }
     //------------------- const getter -------------------
